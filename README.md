@@ -1,66 +1,28 @@
-## Foundry
+# FundMe Smart Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+[//SPDX-License-Identifier: MIT]
 
-Foundry consists of:
+## Overview
+`FundMe` is a Solidity smart contract that allows users to fund the contract in ETH (or USDC with price conversion) and allows the owner to withdraw the funds. It enforces a minimum contribution, tracks all funders, and includes gas optimizations to reduce transaction costs.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+**Key Features:**
+- Users can fund the contract with a minimum amount in USD.
+- Owner can withdraw funds efficiently.
+- Tracks each funder’s contribution.
+- Uses Chainlink price feeds for ETH/USD conversion.
+- Gas-optimized with `constant` and `immutable` keywords.
 
-## Documentation
+---
 
-https://book.getfoundry.sh/
+## Contract Architecture
 
-## Usage
+### State Variables
+- `i_owner` — the owner of the contract (immutable).
+- `MINIMUM_USD` — the minimum USD funding requirement (constant).
+- `s_funders` — array storing funder addresses.
+- `s_addressToAmountFunded` — mapping of addresses to funded amounts.
+- `s_priceFeed` — Chainlink price feed interface.
 
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+### Constructor
+```solidity
+constructor(address priceFeedAddress)
